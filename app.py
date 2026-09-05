@@ -19,6 +19,9 @@ HTML_TEMPLATE = """
       margin: 0;
       padding: 0;
     }
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: #000000;
@@ -98,6 +101,7 @@ HTML_TEMPLATE = """
       text-decoration: none;
       border: 1px solid #ffffff;
       transition: all 0.2s ease;
+      cursor: pointer;
     }
     .btn-primary:hover {
       background-color: #e5e5e5;
@@ -116,13 +120,46 @@ HTML_TEMPLATE = """
       border-color: #ffffff;
       background-color: rgba(255, 255, 255, 0.1);
     }
-    footer {
-      position: absolute;
-      bottom: 2rem;
+    .video-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 6rem 2rem 4rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .video-wrapper {
+      position: relative;
       width: 100%;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      margin-bottom: 2.5rem;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    footer {
+      padding: 3rem 2rem;
       text-align: center;
       font-size: 0.8rem;
       color: #555555;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
   </style>
 </head>
@@ -138,14 +175,24 @@ HTML_TEMPLATE = """
     <p class="hero-subtitle">Watch, engage, and connect with the channel’s official community hub.</p>
     
     <div class="cta-group">
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeL_oO9mv7GHRHwzXIQcQIq780d_nL5Ic5qssltoeFzRyD5Ng/viewform" target="_blank" rel="noopener noreferrer" class="btn-primary">
-        Submit Feedback
-      </a>
+      <a href="#apply" class="btn-primary">Apply</a>
       <a href="https://discord.com/invite/a9T4WS6X6m" target="_blank" rel="noopener noreferrer" class="btn-secondary">
         Join Discord
       </a>
     </div>
   </main>
+
+  <section id="apply" class="video-section">
+    <h2 class="section-title">Apply for Uploading Content</h2>
+    
+    <div class="video-wrapper">
+      <iframe src="https://www.youtube.com/embed/oVsPS5jeQdw" title="Apply for Uploading Content on VRCONTENT" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeL_oO9mv7GHRHwzXIQcQIq780d_nL5Ic5qssltoeFzRyD5Ng/viewform" target="_blank" rel="noopener noreferrer" class="btn-primary">
+      Open Application Form
+    </a>
+  </section>
 
   <footer>
     &copy; VRContent. All rights reserved.
