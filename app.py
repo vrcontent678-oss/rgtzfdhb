@@ -167,7 +167,10 @@ HTML_TEMPLATE = """
 
   <header>
     <div class="logo">VRCONTENT</div>
-    <a href="https://discord.com/invite/a9T4WS6X6m" target="_blank" rel="noopener noreferrer" class="nav-btn">Join Community</a>
+    <nav style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:flex-end;">
+      <a href="/vrstore" class="nav-btn">VRSTORE</a>
+      <a href="https://discord.com/invite/a9T4WS6X6m" target="_blank" rel="noopener noreferrer" class="nav-btn">Join Community</a>
+    </nav>
   </header>
 
   <main class="hero">
@@ -202,9 +205,220 @@ HTML_TEMPLATE = """
 </html>
 """
 
+
+# Set this to the download link (or a file URL) when ready.
+# While it is empty, the button on /vrstore shows as "Coming soon".
+VRSTORE_DOWNLOAD_URL = ""
+
+VRSTORE_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VRSTORE — Your favorite PCVR games in one app.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #000000;
+      color: #ffffff;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Soft colored glows behind the dots */
+    .glow {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(40vw 40vw at 15% 20%, rgba(124, 58, 237, 0.28), transparent 70%),
+        radial-gradient(35vw 35vw at 85% 15%, rgba(6, 182, 212, 0.22), transparent 70%),
+        radial-gradient(45vw 45vw at 75% 85%, rgba(236, 72, 153, 0.22), transparent 70%),
+        radial-gradient(35vw 35vw at 10% 90%, rgba(59, 130, 246, 0.2), transparent 70%);
+    }
+
+    /* Dot grid: the dots are cut out of a multi-color gradient */
+    .dots {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(40vw 40vw at 15% 20%, #a78bfa, transparent 75%),
+        radial-gradient(35vw 35vw at 85% 15%, #22d3ee, transparent 75%),
+        radial-gradient(45vw 45vw at 75% 85%, #f472b6, transparent 75%),
+        radial-gradient(35vw 35vw at 10% 90%, #60a5fa, transparent 75%),
+        radial-gradient(30vw 30vw at 50% 50%, rgba(255, 255, 255, 0.35), transparent 75%);
+      -webkit-mask-image: radial-gradient(circle, #000 1.1px, transparent 1.7px);
+      mask-image: radial-gradient(circle, #000 1.1px, transparent 1.7px);
+      -webkit-mask-size: 22px 22px;
+      mask-size: 22px 22px;
+      opacity: 0.85;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.75rem 3rem;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background-color: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(10px);
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-decoration: none;
+    }
+    .nav-btn {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 0.6rem 1.25rem;
+      transition: all 0.2s ease;
+    }
+    .nav-btn:hover { background-color: #ffffff; color: #000000; }
+
+    main {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 7rem 2rem 4rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .title {
+      font-size: clamp(2.75rem, 8vw, 6rem);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      line-height: 1.02;
+      margin-bottom: 1.5rem;
+    }
+    .subtitle {
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      font-weight: 300;
+      color: #b5b5b5;
+      max-width: 620px;
+      margin-bottom: 2.75rem;
+    }
+    .btn-download {
+      display: inline-block;
+      background-color: #ffffff;
+      color: #000000;
+      padding: 1.1rem 2.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid #ffffff;
+      transition: background-color 0.2s ease;
+    }
+    .btn-download:hover { background-color: #e5e5e5; }
+    .btn-download:focus-visible, .nav-btn:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 3px;
+    }
+    .btn-download.is-disabled {
+      background-color: transparent;
+      color: rgba(255, 255, 255, 0.6);
+      border-color: rgba(255, 255, 255, 0.35);
+      cursor: not-allowed;
+    }
+    .btn-download.is-disabled:hover { background-color: transparent; }
+    .note {
+      margin-top: 1.1rem;
+      font-size: 0.85rem;
+      color: #8a8a8a;
+    }
+    .points {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem 3rem;
+      margin-top: 4.5rem;
+      color: #cfcfcf;
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+    footer {
+      position: relative;
+      z-index: 2;
+      padding: 3rem 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #666666;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    @media (max-width: 640px) {
+      header { padding: 1.25rem 1.25rem; }
+      .points { margin-top: 3rem; gap: 0.75rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="dots"></div>
+
+  <header>
+    <a href="/" class="logo">VRSTORE</a>
+    <a href="/" class="nav-btn">Back to VRContent</a>
+  </header>
+
+  <main>
+    <h1 class="title">Your favorite PCVR games, in one app.</h1>
+    <p class="subtitle">Install VRSTORE to browse and play the PCVR games uploaded to it.</p>
+
+    {% if download_url %}
+      <a href="{{ download_url }}" class="btn-download" download>Download VRSTORE</a>
+    {% else %}
+      <span class="btn-download is-disabled" aria-disabled="true">Download VRSTORE</span>
+      <p class="note">The download is coming soon.</p>
+    {% endif %}
+
+    <div class="points">
+      <span>PCVR games</span>
+      <span>Installed from one app</span>
+      <span>New uploads added</span>
+    </div>
+  </main>
+
+  <footer>
+    &copy; VRContent. All rights reserved.
+  </footer>
+</body>
+</html>
+"""
+
 @app.route('/')
 def home():
     return render_template_string(HTML_TEMPLATE)
+
+@app.route('/vrstore')
+def vrstore():
+    return render_template_string(VRSTORE_TEMPLATE, download_url=VRSTORE_DOWNLOAD_URL)
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
