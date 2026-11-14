@@ -208,7 +208,7 @@ HTML_TEMPLATE = """
 
 # Set this to the download link (or a file URL) when ready.
 # While it is empty, the button on /vrstore shows as "Coming soon".
-VRSTORE_DOWNLOAD_URL = ""
+VRSTORE_DOWNLOAD_URL = "https://github.com/vrcontent678-oss/VRSTORE/releases/download/store/VRSTORE.zip"
 
 VRSTORE_TEMPLATE = """
 <!DOCTYPE html>
